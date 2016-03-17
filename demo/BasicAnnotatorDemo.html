@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Basic Annotator Demo</title>
+    <link src="assets/ui.css" rel="stylesheet" type="text/css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="assets/annotation-widget.min.js"></script>
+  </head>
+  <body>
+    hello
+    <br/>
+
+    <div><label for="scrollLeft">Scroll Left: </label><input type="text" id="scrollLeft" size="9"/></div>
+    <div><label for="scrollTop">Scroll Top: </label><input type="text" id="scrollTop" size="9"/></div>
+    <div><button id="scrollTo">Scroll to Coords</button></div>
+
+    </br>
+
+    <img src="assets/testimg.png" style="display:inline;"/>
+    <div id="container">
+      <div id="content">
+        <img src="assets/testimg.png" style="display:inline;"/>
+      </div>
+    </div>
+    <script language="javascript">
+function test(x) {
+  console.log('Hello ' + x);
+}
+
+function render(){
+  var i = document.getElementById('myimg');
+  var c = document.getElementById('content');
+  var ctx = c.getContext('2d');
+  ctx.drawImage(i,0,0,100,100);
+}
+
+    </script>
+    <!-- Create Scroller, bind UI layer and mouse/touch events -->
+    <script src="assets/ui.js"></script>
+  </body>
+</html>
