@@ -13,6 +13,7 @@ module.exports = function(grunt) {
     concat: {
       options: {
         separator: ';',
+        sourceMap: true
       },
       dist: {
         src: ['lib/**/*.js', 'src/moduleUtil.js', 'src/**/*.js'],
@@ -21,7 +22,10 @@ module.exports = function(grunt) {
     },
     uglify: {
       options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+        sourceMap: true,
+        sourceMapIncludeSources : true,
+        sourceMapIn: 'build/<%= pkg.name %>.js.map',
       },
       build: {
         src: 'build/<%= pkg.name %>.js',
@@ -77,7 +81,7 @@ module.exports = function(grunt) {
     },
   });
 
-  grunt.registerTask('default', ['jshint', 'concat', 'uglify']);
+  grunt.registerTask('default', ['concat', 'uglify']);
   grunt.registerTask('cwatch', ['connect', 'watch']);
   grunt.registerTask('all', ['jshint', 'htmlhint', 'concat', 'uglify']);
 
