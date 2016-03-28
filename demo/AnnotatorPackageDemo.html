@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Annotator Demo2</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <link href="assets/ui.css" rel="stylesheet" type="text/css"/>
+    <!-- <script src="../src/Annotator.js"></script> -->
+    <script>
+      $().ready(setupAnnotator);
+
+      function setupAnnotator() {
+        ANNOTATOR.createAnnotatorWithImage($('#private_img'));
+      }
+    </script>
+  </head>
+
+  <body>
+    <img id="private_img" src="assets/img_1.bmp" alt="Image for Annotator" style="display: none;">
+
+    <!-- <script src="assets/annotation-widget.min.js"></script>  this breaks source maps-->
+    <!-- <script src="../build/annotation-widget.js"></script> -->
+    <script src="../build/annotation-widget.min.js"></script>
+    <!-- <script src="../src/annotator.js"></script> -->
+    <!-- <script src="../src/testmodule.js"></script> -->
+    <!-- <img id="img" src="http://i.4cdn.org/hr/1458031450801.jpg" alt="Image for Annotator"> -->
+
+  </body>
+</html>

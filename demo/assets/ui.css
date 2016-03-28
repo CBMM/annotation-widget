@@ -12,14 +12,17 @@ body{
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 14px;
 	line-height: 1.8;
+	overflow: hidden;
 }
 
-#container{
+#annot_container{
 	position: absolute;
-	left: 20px;
-	top: 20px;
-	bottom: 20px;
-	right: 240px;
+	left: 0px;
+	top: 0px;
+	bottom: 0px;
+	right: 0px;
+	width: 500px;
+	height: 300px;
 	border: 5px solid black;
 	cursor: default;
 	overflow: hidden;
@@ -31,9 +34,9 @@ body{
 	user-select: none;
 }
 
-#content{
+#annot_content{
 	background: white;
-	
+
 	-webkit-transform-origin: left top;
 	-webkit-transform: translateZ(0);
 	-moz-transform-origin: left top;
