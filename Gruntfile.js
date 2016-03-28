@@ -16,7 +16,7 @@ module.exports = function(grunt) {
         sourceMap: true
       },
       dist: {
-        src: ['lib/**/*.js', 'src/moduleUtil.js', 'src/**/*.js'],
+        src: ['lib/**/*.js', 'src/**/*.js'],
         dest: 'build/<%= pkg.name %>.js'
       }
     },
@@ -81,9 +81,8 @@ module.exports = function(grunt) {
     },
   });
 
-  grunt.registerTask('default', ['concat', 'uglify']);
+  grunt.registerTask('default', ['jshint', 'htmlhint', 'concat', 'uglify']);
+  grunt.registerTask('lite', ['concat', 'uglify']);
   grunt.registerTask('cwatch', ['connect', 'watch']);
-  grunt.registerTask('all', ['jshint', 'htmlhint', 'concat', 'uglify']);
-
 
 };
