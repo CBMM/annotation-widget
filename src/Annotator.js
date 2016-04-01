@@ -30,11 +30,14 @@ ANNOTATOR.createNS = function (namespace) {
 // Create the namespace
 ANNOTATOR.createNS('ANNOTATOR.CONTROLLER');
 
+/************************/
 /** Anotator Functions **/
+/************************/
 ANNOTATOR.createAnnotatorWithImage = function(imgSelector) {
   console.log(isImgLoaded);
   // When the image finished loading, setup the annotator
   $(imgSelector).on('load', function(){
+    $(imgSelector).off('load');
     CONTROLLER = ANNOTATOR.CONTROLLER();
     CONTROLLER.init(imgSelector);
   });
@@ -44,7 +47,7 @@ ANNOTATOR.createAnnotatorWithImage = function(imgSelector) {
   if (!$(imgSelector)[0].complete) {
     isImgLoaded = false;
   }
-  if (typeof $(imgSelector)[0].naturalWidth !== "undefined" && $(imgSelector)[0].naturalWidth === 0) {
+  if (typeof $(imgSelector)[0].naturalWidth !== 'undefined' && $(imgSelector)[0].naturalWidth === 0) {
     isImgLoaded = false;
   }
   // If the image is already loaded, manually trigger the event
@@ -57,6 +60,7 @@ ANNOTATOR.CONTROLLER = function() {
   'use strict';
   var scroller;
   var container, content;
+  var mousedown =  false;
 
   function _render() {
     console.log('<Rendering Annotator>');
@@ -75,6 +79,54 @@ ANNOTATOR.CONTROLLER = function() {
     console.log('</Prepping DOM for Annotator>');
   }
 
+  function _bindMouseEvents() {
+    console.log('binding');
+    $('#annot_container').on("mousedown", function(e) {
+      e.preventDefault();
+      if (e.target.tagName.match(/input|textarea|select/i)) {
+        return;
+      }
+
+      CONTROLLER.scroller.doTouchStart([{
+        pageX: e.pageX,
+        pageY: e.pageY
+      }], e.timeStamp);
+
+      CONTROLLER.mousedown = true;
+    });
+
+    $(document).on("mousemove", function(e) {
+      if (!CONTROLLER.mousedown) {
+        return;
+      }
+
+      CONTROLLER.scroller.doTouchMove([{
+        pageX: e.pageX,
+        pageY: e.pageY
+      }], e.timeStamp);
+
+      CONTROLLER.mousedown = true;
+    });
+
+    $(document).on("mouseup", function(e) {
+      if (!CONTROLLER.mousedown) {
+        return;
+      }
+
+      CONTROLLER.scroller.doTouchEnd(e.timeStamp);
+
+      CONTROLLER.mousedown = false;
+    });
+
+    $('#annot_container')[0].addEventListener(navigator.userAgent.indexOf("Firefox") > -1 ? "wheel" :  "mousewheel", function(e) {
+      // CONTROLLER.scroller.doMouseZoom(e.detail ? (e.detail * -120) : e.wheelDelta, e.timeStamp, e.pageX, e.pageY);
+      var verScroll = e.wheelDeltaY ? -e.wheelDeltaY : e.deltaY;
+      if (verScroll) {
+        CONTROLLER.scroller.doMouseZoom(verScroll, e.timeStamp, e.pageX, e.pageY);
+      }
+    });
+  }
+
   function init(imgSelector) {
 
     console.log('<Init CONTROLLER>');
@@ -90,8 +142,6 @@ ANNOTATOR.CONTROLLER = function() {
     var contentWidth = $('#annot_img').width();
     var contentHeight = $('#annot_img').height();
 
-    // console.log(contentWidth + ' , ' + contentHeight);
-    // console.log(clientWidth, clientHeight);
     // Initialize Scroller
     CONTROLLER.scroller = new Scroller(render, {
       zooming: true,
@@ -100,19 +150,20 @@ ANNOTATOR.CONTROLLER = function() {
     });
     var rect = $('#annot_container')[0].getBoundingClientRect();
     CONTROLLER.scroller.setPosition(rect.left + CONTROLLER.container[0].clientLeft, rect.top + CONTROLLER.container[0].clientTop);
-    // scroller.setPosition(0,0);
-
 
     // Reflow handling
     var reflow = function() {
-      console.log("<Reflow>");
+      console.log('<Reflow>');
       CONTROLLER.scroller.setDimensions($('#annot_container').width(), $('#annot_container').height(),
-          $('#img').width(), $('#img').height());
-      console.log("</Reflow>");
+          $('#annot_img').width(), $('#annot_img').height());
+      console.log('</Reflow>');
     };
+    reflow();
 
     // _render();
+
     $(window).on('resize', reflow);
+    _bindMouseEvents();
     console.log('</Init CONTROLLER>');
   }
 

@@ -1,10 +1,10 @@
 // Intialize layout
-var container = document.getElementById("container");
-var content = document.getElementById("content");
+var container = document.getElementById("annot_container");
+var content = document.getElementById("annot_content");
 var clientWidth = 0;
 var clientHeight = 0;
-var contentWidth = 0;
-var contentHeight = 0;
+var contentWidth = $("#img").width();
+var contentHeight = $("#img").height();
 
 // Initialize Scroller
 this.scroller = new Scroller(render, {
@@ -142,7 +142,7 @@ if ('ontouchstart' in window) {
   }, false);
 
   container.addEventListener(navigator.userAgent.indexOf("Firefox") > -1 ? "DOMMouseScroll" :  "mousewheel", function(e) {
-    scroller.doMouseZoom(e.detail ? (e.detail * -120) : e.wheelDelta, e.timeStamp, e.pageX, e.pageY);
+    scroller.doMouseZoom(e.detail ? (e.detail * 120) : -e.wheelDelta, e.timeStamp, e.pageX, e.pageY);
   }, false);
 
 }
